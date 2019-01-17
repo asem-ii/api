@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ReviewResource;
+use App\Model\Course;
 use App\Model\Review;
 use Illuminate\Http\Request;
 
@@ -12,9 +14,9 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Course $course)
     {
-        //
+        return ReviewResource::collection($course->reviews);
     }
 
     /**

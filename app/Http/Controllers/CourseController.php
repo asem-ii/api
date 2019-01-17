@@ -16,7 +16,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-       return CourseCollection::collection(Course::all());
+       return CourseCollection::collection(Course::paginate(20));
 
     }
 
