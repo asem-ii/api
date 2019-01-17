@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Htp\Resources\Course\CourseResource;
+use App\Http\Resources\Course\CourseCollection;
+use App\Http\Resources\Course\CourseResource;
 use App\Model\Course;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-       return course::all();
+       return CourseCollection::collection(Course::all());
 
     }
 
