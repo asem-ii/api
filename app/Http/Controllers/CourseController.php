@@ -98,7 +98,17 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
-        //
+        $request['detail'] = $request->description;
+
+        unset($request['description']);
+
+        $course->update($request->all());
+
+        return response([
+
+            'data' => new CourseResource($course)
+            
+        ],Response::HTTP_CREATED);
     }
 
     /**
