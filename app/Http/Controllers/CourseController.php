@@ -2,13 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CourseRequest;
 use App\Http\Resources\Course\CourseCollection;
 use App\Http\Resources\Course\CourseResource;
 use App\Model\Course;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CourseController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware('auth:api')->except('index','show');
+    }
+   
+
+
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -36,9 +50,21 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CourseRequest $request)
     {
-        //
+        $course = new Course;
+        $course->title=$request->title;
+        $course->detail=$request->description;
+        $course->cost=$request->cost;
+        $course->faculty=$request->faculty;
+        $course->discount=$request->discount;
+        $course->year=$request->year;
+        $course->save();
+
+
+        return response([
+            'data' => new CourseResource($course)
+        ],Response::HTTP_CREATED);
     }
 
     /**

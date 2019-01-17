@@ -17,7 +17,7 @@ class CourseCollection extends Resource
         return [
             'title' =>$this->title,
 
-            'totalCost'=>round((1-($this->discount/100))*$this->price,2),
+            'totalCost'=>round((1-($this->discount/100))*$this->cost,2),
             
             'discount'=>$this->discount,
 
