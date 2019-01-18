@@ -61,6 +61,7 @@ class CourseController extends Controller
         $course->faculty=$request->faculty;
         $course->discount=$request->discount;
         $course->year=$request->year;
+        $course->user_id=Auth::id();
         //$course->user_id=$request->user_id;
         $course->save();
 
