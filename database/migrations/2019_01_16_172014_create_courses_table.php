@@ -21,6 +21,7 @@ class CreateCoursesTable extends Migration
             $table->string('faculty');
             $table->integer('year');
             $table->integer('discount');
+            $table->integer('user_id')->unsigned()->index();
             $table->timestamps();
         });
     }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CourseNotBelongsToUser;
 use App\Http\Requests\CourseRequest;
 use App\Http\Resources\Course\CourseCollection;
 use App\Http\Resources\Course\CourseResource;
 use App\Model\Course;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class CourseController extends Controller
@@ -59,6 +61,7 @@ class CourseController extends Controller
         $course->faculty=$request->faculty;
         $course->discount=$request->discount;
         $course->year=$request->year;
+        //$course->user_id=$request->user_id;
         $course->save();
 
 
@@ -98,6 +101,9 @@ class CourseController extends Controller
      */
     public function update(Request $request, Course $course)
     {
+
+        $this->CourseUserCheck($course);
+
         $request['detail'] = $request->description;
 
         unset($request['description']);
@@ -119,7 +125,17 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
+        $this->CourseUserCheck($course);
+
         $course->delete();
+
         return response(null,Response::HTTP_NO_CONTENT);
+    }
+
+    public function CourseUserCheck($course)
+    {
+        if (Auth::id() !== $course->user_id) {
+            throw new CourseNotBelongsToUser;
+        }
     }
 }
